@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { WalletModule } from './wallet/wallet.module';
+import WalletModule from './wallet/wallet.module';
 import DatabaseModule from './database/database.module';
 
 @Module({
-  imports: [WalletModule, DatabaseModule],
+  imports: [WalletModule, DatabaseModule]
 })
 export default class AppModule {}

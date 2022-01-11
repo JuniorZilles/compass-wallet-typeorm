@@ -1,1 +1,1 @@
-export class Wallet {}
+export default class Wallet {}

@@ -17,6 +17,7 @@ export default class Initial1641925930089 implements MigrationInterface {
           {
             name: 'cpf',
             type: 'varchar',
+            isUnique: true,
             length: '14',
             isNullable: false
           },
@@ -24,6 +25,16 @@ export default class Initial1641925930089 implements MigrationInterface {
             name: 'birthdate',
             type: 'date',
             isNullable: false
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP'
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP'
           }
         ]
       })
@@ -32,6 +43,5 @@ export default class Initial1641925930089 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('wallet');
-    await queryRunner.dropDatabase(process.env.TYPEORM_DATABASE);
   }
 }

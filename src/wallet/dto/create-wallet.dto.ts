@@ -1,1 +1,1 @@
-export class CreateWalletDto {}
+export default class CreateWalletDto {}

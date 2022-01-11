@@ -9,7 +9,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   app.enableVersioning({
-    type: VersioningType.URI,
+    type: VersioningType.URI
   });
 
   const config = new DocumentBuilder()
