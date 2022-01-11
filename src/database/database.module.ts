@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: process.env.NODE_ENV === 'test' ? ['.env.test'] : ['.env'],
+      envFilePath: process.env.NODE_ENV === 'test' ? ['.env.test'] : ['.env']
     }),
     TypeOrmModule.forRoot({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -20,9 +20,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: process.env.NODE_ENV === 'test',
       logging: false,
       cli: {
-        migrationsDir: 'src/migrations',
-      },
-    }),
-  ],
+        migrationsDir: 'src/migrations'
+      }
+    })
+  ]
 })
 export default class DatabaseModule {}
