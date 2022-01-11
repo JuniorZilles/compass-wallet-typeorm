@@ -48,7 +48,7 @@ services:
     entrypoint:
       - npm
       - run
-      - start
+      - start:prod
     links:
       - postgres
     depends_on:
