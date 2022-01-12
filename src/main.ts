@@ -25,6 +25,7 @@ async function bootstrap() {
     .setDescription('API de gestão de carteira digital')
     .setVersion('1.0')
     .addTag('wallet')
+    .addTag('wallet.transaction')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

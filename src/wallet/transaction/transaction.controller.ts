@@ -1,10 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TransactionService } from './transaction.service';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ClassSerializerInterceptor,
+  UseInterceptors
+} from '@nestjs/common';
+import { ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiTags } from '@nestjs/swagger';
+import ErrorDto from 'src/dto/error.dto';
+import TransactionService from './transaction.service';
+import CreateTransactionDto from './dto/create-transaction.dto';
+import UpdateTransactionDto from './dto/update-transaction.dto';
 
-@Controller('transaction')
-export class TransactionController {
+@ApiTags('wallet.transaction')
+@Controller({ path: '/wallet/:address/transaction', version: '1' })
+@UseInterceptors(ClassSerializerInterceptor)
+@ApiBadRequestResponse({ description: 'Bad Request.', type: ErrorDto })
+@ApiInternalServerErrorResponse({ description: 'Internal Server Error.', type: ErrorDto })
+export default class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   @Post()

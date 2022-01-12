@@ -1,1 +1,1 @@
-export class CreateTransactionDto {}
+export default class CreateTransactionDto {}
