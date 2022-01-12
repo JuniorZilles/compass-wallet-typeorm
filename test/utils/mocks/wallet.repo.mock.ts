@@ -1,7 +1,6 @@
 import { v4 } from 'uuid';
 import { manyWallets } from '../factory/wallet.factory';
 
-export const UUaddress = v4();
 export const GENERATED = manyWallets();
 export const MOCKWALLETREPOSITORY = {
   insertWallet: jest.fn((dto) => ({
@@ -10,10 +9,12 @@ export const MOCKWALLETREPOSITORY = {
     created_at: new Date(),
     updated_at: new Date()
   })),
-  findOneWallet: jest.fn((cpf) => GENERATED.find((wallet) => wallet.cpf === cpf)),
-  findByaddress: jest.fn((address) => ({
-    ...GENERATED.find((wallet) => wallet.address === address)
-  })),
+  findOneWallet: jest.fn(({ cpf, address, name, birthdate }) =>
+    GENERATED.find(
+      (wallet) =>
+        wallet.cpf === cpf || wallet.address === address || wallet.name === name || wallet.birthdate === birthdate
+    )
+  ),
   update: jest.fn((address, dto) => {
     const index = GENERATED.findIndex((wallet) => wallet.address === address);
     GENERATED[index] = {

@@ -15,6 +15,8 @@ export default class Wallet {
   @Column({ nullable: false })
   birthdate: Date;
 
+  coins: string[];
+
   @Exclude()
   @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP(6)', select: false })
   created_at: Date;

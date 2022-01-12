@@ -5,7 +5,7 @@ import CustomDateIsOlderAgeValidator from '../utils/validators/custom-date-valid
 
 export default class CreateWalletDto {
   @ApiProperty({
-    description: 'Person Adress',
+    description: 'Person identifier Address',
     required: false,
     readOnly: true
   })

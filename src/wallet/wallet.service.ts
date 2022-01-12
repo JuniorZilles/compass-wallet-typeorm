@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import CreateWalletDto from './dto/create-wallet.dto';
+import ListWalletDto from './dto/list-wallet.dto';
+import SearchWalletDto from './dto/search-wallet.dto';
 import UpdateWalletDto from './dto/update-wallet.dto';
+import WalletRepository from './wallet.repository';
 
 @Injectable()
 export default class WalletService {
-  create(createWalletDto: CreateWalletDto) {
-    return 'This action adds a new wallet';
+  constructor(@InjectRepository(WalletRepository) private readonly walletRepo: WalletRepository) {}
+
+  async create(createWalletDto: CreateWalletDto): Promise<CreateWalletDto> {
+    const exist = await this.walletRepo.findOneWallet({ cpf: createWalletDto.cpf });
+    if (exist) {
+      throw new BadRequestException('Wallet already exists for this CPF.');
+    }
+    const wallet = await this.walletRepo.insertWallet(createWalletDto);
+    return wallet;
   }
 
-  findAll() {
-    return `This action returns all wallet`;
+  findAll(payload: SearchWalletDto): ListWalletDto {
+    return new ListWalletDto();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} wallet`;
+  async findOne(address: string): Promise<CreateWalletDto> {
+    const result = await this.walletRepo.findOneWallet({ address });
+    if (!result || Object.keys(result).length === 0) {
+      throw new NotFoundException('Wallet not found for the searched address.');
+    }
+    return result;
   }
 
-  update(id: number, updateWalletDto: UpdateWalletDto) {
-    return `This action updates a #${id} wallet`;
+  update(address: string, updateWalletDto: UpdateWalletDto): CreateWalletDto {
+    return new CreateWalletDto();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} wallet`;
+  remove(address: string) {
+    return `This action removes a #${address} wallet`;
   }
 }
