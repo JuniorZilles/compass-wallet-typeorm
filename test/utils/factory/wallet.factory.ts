@@ -13,7 +13,7 @@ export const oneWallet = () => {
 export const manyWallets = (quantity = 10) => {
   const cars = [];
   for (let i = 0; i < quantity; i += 1) {
-    cars.push({ ...oneWallet(), id: v4(), created_at: new Date(), updated_at: new Date() });
+    cars.push({ ...oneWallet(), address: v4(), created_at: new Date(), updated_at: new Date() });
   }
   return cars;
 };

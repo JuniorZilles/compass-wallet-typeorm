@@ -1,20 +1,21 @@
 import { v4 } from 'uuid';
 import { manyWallets } from '../factory/wallet.factory';
 
-export const UUID = v4();
+export const UUaddress = v4();
 export const GENERATED = manyWallets();
 export const MOCKWALLETREPOSITORY = {
   insertWallet: jest.fn((dto) => ({
-    id: v4(),
+    address: v4(),
     ...dto,
     created_at: new Date(),
     updated_at: new Date()
   })),
-  findById: jest.fn((id) => ({
-    ...GENERATED.find((wallet) => wallet.id === id)
+  findOneWallet: jest.fn((cpf) => GENERATED.find((wallet) => wallet.cpf === cpf)),
+  findByaddress: jest.fn((address) => ({
+    ...GENERATED.find((wallet) => wallet.address === address)
   })),
-  update: jest.fn((id, dto) => {
-    const index = GENERATED.findIndex((wallet) => wallet.id === id);
+  update: jest.fn((address, dto) => {
+    const index = GENERATED.findIndex((wallet) => wallet.address === address);
     GENERATED[index] = {
       ...GENERATED[index],
       ...dto,
@@ -25,8 +26,8 @@ export const MOCKWALLETREPOSITORY = {
       raw: GENERATED[index]
     };
   }),
-  delete: jest.fn((id) => {
-    const index = GENERATED.findIndex((wallet) => wallet.id === id);
+  delete: jest.fn((address) => {
+    const index = GENERATED.findIndex((wallet) => wallet.address === address);
     if (index === -1) {
       return {
         affected: 0
