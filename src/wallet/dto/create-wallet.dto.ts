@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsAlphanumeric, IsNotEmpty, MinLength, Validate } from 'class-validator';
+import { IsNotEmpty, IsString, MinLength, Validate } from 'class-validator';
 import CustomCpfValidator from '../utils/validators/custom-cpf-validator';
 import CustomDateIsOlderAgeValidator from '../utils/validators/custom-date-validator';
 
@@ -15,7 +15,7 @@ export default class CreateWalletDto {
     description: 'Person Name'
   })
   @IsNotEmpty()
-  @IsAlphanumeric()
+  @IsString()
   @MinLength(7)
   name: string;
 

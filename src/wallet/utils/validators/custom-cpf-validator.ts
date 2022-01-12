@@ -13,6 +13,6 @@ export default class CustomCpfValidator implements ValidatorConstraintInterface 
   }
 
   defaultMessage(args: ValidationArguments) {
-    return 'The CPF is invalid';
+    return 'The CPF is invalid, it should have the format of xxx.xxx.xxx-xx.';
   }
 }
