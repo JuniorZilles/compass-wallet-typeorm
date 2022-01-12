@@ -23,26 +23,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'import/extensions': 'off',
-    'import/no-unresolved': 'off',
-    'prettier/prettier': 'error',
     'class-methods-use-this': 'off',
-    camelcase: 'off',
-    'new-cap': 1,
-    'no-console': 'off',
-    'no-param-reassign': [
-      'error',
-      {
-        props: false
-      }
-    ],
-    'no-plusplus': [
-      'error',
-      {
-        allowForLoopAfterthoughts: true
-      }
-    ],
-    'no-underscore-dangle': 'off',
-    'import/no-extraneous-dependencies': 'off'
   },
 };
