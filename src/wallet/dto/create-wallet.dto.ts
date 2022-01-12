@@ -34,5 +34,5 @@ export default class CreateWalletDto {
   })
   @IsNotEmpty()
   @Validate(CustomDateIsOlderAgeValidator)
-  birthdate: Date;
+  birthdate: string | Date;
 }

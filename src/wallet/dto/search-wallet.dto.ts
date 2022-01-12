@@ -33,5 +33,5 @@ export default class SearchWalletDto {
   @IsOptional()
   @IsNotEmpty()
   @Validate(CustomDateIsOlderAgeValidator)
-  birthdate?: Date;
+  birthdate?: string | Date;
 }
