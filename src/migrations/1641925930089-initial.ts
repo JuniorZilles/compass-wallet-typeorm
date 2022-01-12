@@ -2,13 +2,14 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export default class Initial1641925930089 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
     await queryRunner.createTable(
       new Table({
         name: 'wallet',
         columns: [
           {
             name: 'address',
-            type: 'varchar',
+            type: 'uuid',
             isPrimary: true,
             isGenerated: true,
             isNullable: false,
@@ -43,5 +44,6 @@ export default class Initial1641925930089 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('wallet');
+    await queryRunner.query('DROP EXTENSION IF EXISTS "uuid-ossp";');
   }
 }
