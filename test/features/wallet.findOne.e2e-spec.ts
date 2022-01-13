@@ -7,7 +7,7 @@ import cleanDatabase from '../utils/clean-database';
 import { oneWallet } from '../utils/factory/wallet.factory';
 
 describe('scr :: api :: wallet :: WalletController() :: findOne (e2e)', () => {
-  describe('GIVEN a empty database', () => {
+  describe('GIVEN existing register', () => {
     let app: INestApplication;
     let address: string;
     const walletFactory = oneWallet();

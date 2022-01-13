@@ -22,7 +22,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Compass Wallet API')
-    .setDescription('API de gestão de carteira digital')
+    .setDescription('API for managing a Compass Wallet')
     .setVersion('1.0')
     .addTag('wallet')
     .addTag('wallet.transaction')

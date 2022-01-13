@@ -5,7 +5,7 @@ import WalletService from '../../../src/wallet/wallet.service';
 import { MOCKWALLETREPOSITORY, GENERATED } from '../../utils/mocks/wallet.repo.mock';
 import addressFactory from '../../utils/factory/address.factory';
 
-describe('scr :: api :: wallet :: WalletService()', () => {
+describe('scr :: api :: wallet :: WalletService() :: findOne', () => {
   describe('GIVEN a mocked repository AND 5 mocked registers', () => {
     let service: WalletService;
     const { address } = GENERATED[3];
