@@ -16,7 +16,7 @@ export default class Wallet {
   @Column({
     nullable: false,
     type: 'date',
-    transformer: { to: (value: string) => toDate(value), from: (value: Date) => toStringDate(value) }
+    transformer: { to: (value: string) => toDate(value), from: (value: Date) => value }
   })
   @Transform(({ value }) => toStringDate(value))
   birthdate: Date | string;

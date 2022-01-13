@@ -5,7 +5,7 @@ import AppModule from '../../src/app.module';
 import cleanDatabase from '../utils/clean-database';
 import { oneWallet } from '../utils/factory/wallet.factory';
 
-describe('scr :: api :: wallet :: WalletController() (e2e)', () => {
+describe('scr :: api :: wallet :: WalletController() :: create (e2e)', () => {
   describe('GIVEN a empty database', () => {
     let app: INestApplication;
     const walletFactory = oneWallet();
