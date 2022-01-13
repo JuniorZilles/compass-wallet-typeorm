@@ -9,7 +9,9 @@ import {
   ClassSerializerInterceptor,
   ParseUUIDPipe,
   Put,
-  Query
+  Query,
+  HttpCode,
+  HttpStatus
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -63,9 +65,11 @@ export default class WalletController {
   }
 
   @Delete(':address')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiNoContentResponse({ description: 'Success on removing the wallet.', type: ErrorDto })
   @ApiNotFoundResponse({ description: 'Searched wallet was not found.', type: ErrorDto })
-  remove(@Param('address', ParseUUIDPipe) address: string) {
-    return this.walletService.remove(address);
+  async remove(@Param('address', ParseUUIDPipe) address: string) {
+    const result = await this.walletService.remove(address);
+    return result;
   }
 }

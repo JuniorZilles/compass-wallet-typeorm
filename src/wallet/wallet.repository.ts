@@ -15,4 +15,12 @@ export default class WalletRepository extends Repository<Wallet> {
     const result = await this.findOne(payload);
     return result;
   }
+
+  async removeWallet(address: string): Promise<CreateWalletDto> {
+    const result = await this.delete(address);
+    if (result.affected > 0) {
+      return result.raw;
+    }
+    return null;
+  }
 }

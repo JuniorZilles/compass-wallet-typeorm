@@ -37,7 +37,11 @@ export default class WalletService {
     return new CreateWalletDto();
   }
 
-  remove(address: string) {
-    return `This action removes a #${address} wallet`;
+  async remove(address: string): Promise<CreateWalletDto> {
+    const result = await this.walletRepo.removeWallet(address);
+    if (!result) {
+      throw new NotFoundException('Wallet not found for the used address.');
+    }
+    return result;
   }
 }
