@@ -1,4 +1,4 @@
-import { Exclude, Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { toDate, toStringDate } from '../utils/date-transform';
 
@@ -23,15 +23,12 @@ export default class Wallet {
 
   coins: string[];
 
-  @Exclude()
-  @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP(6)', select: false })
+  @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at: Date;
 
-  @Exclude()
   @UpdateDateColumn({
     default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
-    select: false
+    onUpdate: 'CURRENT_TIMESTAMP(6)'
   })
   updated_at: Date;
 

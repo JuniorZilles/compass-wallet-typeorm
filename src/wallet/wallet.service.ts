@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import CreateWalletDto from './dto/create-wallet.dto';
 import ListWalletDto from './dto/list-wallet.dto';
 import SearchWalletDto from './dto/search-wallet.dto';
-import UpdateWalletDto from './dto/update-wallet.dto';
+import TransactionWalletDto from './dto/transaction-wallet.dto';
 import { toDate } from './utils/date-transform';
 import WalletRepository from './wallet.repository';
 
@@ -33,8 +33,8 @@ export default class WalletService {
     return result;
   }
 
-  update(address: string, updateWalletDto: UpdateWalletDto): CreateWalletDto {
-    return new CreateWalletDto();
+  executeTransaction(address: string, updateWalletDto: TransactionWalletDto[]): TransactionWalletDto[] {
+    return updateWalletDto;
   }
 
   async remove(address: string): Promise<CreateWalletDto> {

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MinLength, Validate } from 'class-validator';
 import CustomCpfValidator from '../utils/validators/custom-cpf-validator';
-import CustomDateIsOlderAgeValidator from '../utils/validators/custom-date-validator';
+import CustomDateIsOlderAgeValidator from '../utils/validators/custom-date-age-validator';
 
 export default class CreateWalletDto {
   @ApiProperty({

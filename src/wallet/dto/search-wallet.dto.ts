@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, MinLength, Validate } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, MinLength, Validate } from 'class-validator';
 import CustomCpfValidator from '../utils/validators/custom-cpf-validator';
-import CustomDateIsOlderAgeValidator from '../utils/validators/custom-date-validator';
+import CustomDateIsOlderAgeValidator from '../utils/validators/custom-date-age-validator';
+import CustomDateValidator from '../utils/validators/custom-date-validator';
 
 export default class SearchWalletDto {
   @ApiProperty({
@@ -34,6 +35,39 @@ export default class SearchWalletDto {
   @IsNotEmpty()
   @Validate(CustomDateIsOlderAgeValidator)
   birthdate?: string | Date;
+
+  @ApiProperty({
+    description: 'Amount of the transaction',
+    format: 'DD/MM/YYYY',
+    type: Number,
+    required: false
+  })
+  @IsOptional()
+  @IsNotEmpty()
+  @IsNumber()
+  amount?: number;
+
+  @ApiProperty({
+    description: 'Creation date',
+    format: 'DD/MM/YYYY',
+    type: String,
+    required: false
+  })
+  @IsOptional()
+  @IsNotEmpty()
+  @Validate(CustomDateValidator)
+  created_at?: string | Date;
+
+  @ApiProperty({
+    description: 'Update date',
+    format: 'DD/MM/YYYY',
+    type: String,
+    required: false
+  })
+  @IsOptional()
+  @IsNotEmpty()
+  @Validate(CustomDateValidator)
+  updated_at?: string | Date;
 
   address?: string;
 }

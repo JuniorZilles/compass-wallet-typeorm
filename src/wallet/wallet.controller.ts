@@ -15,11 +15,13 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBody,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags
 } from '@nestjs/swagger';
 import ErrorDto from '../dto/error.dto';
@@ -27,6 +29,7 @@ import WalletService from './wallet.service';
 import CreateWalletDto from './dto/create-wallet.dto';
 import ListWalletDto from './dto/list-wallet.dto';
 import SearchWalletDto from './dto/search-wallet.dto';
+import TransactionWalletDto from './dto/transaction-wallet.dto';
 
 @ApiTags('wallet')
 @Controller({ path: '/wallet', version: '1' })
@@ -44,6 +47,7 @@ export default class WalletController {
   }
 
   @Get()
+  @ApiQuery({ type: SearchWalletDto })
   @ApiOkResponse({ description: 'Operation succeeded.', type: ListWalletDto })
   findAll(@Query() payload: SearchWalletDto): ListWalletDto {
     return this.walletService.findAll(payload);
@@ -58,10 +62,14 @@ export default class WalletController {
   }
 
   @Put(':address')
-  @ApiOkResponse({ description: 'Operation succeeded.', type: CreateWalletDto })
+  @ApiBody({ type: TransactionWalletDto, isArray: true })
+  @ApiOkResponse({ description: 'Operation succeeded.', type: TransactionWalletDto, isArray: true })
   @ApiNotFoundResponse({ description: 'Searched wallet was not found.', type: ErrorDto })
-  update(@Param('address', ParseUUIDPipe) address: string, @Body() updateWalletDto: CreateWalletDto): CreateWalletDto {
-    return this.walletService.update(address, updateWalletDto);
+  update(
+    @Param('address', ParseUUIDPipe) address: string,
+    @Body() transactionWalletDto: TransactionWalletDto[]
+  ): TransactionWalletDto[] {
+    return this.walletService.executeTransaction(address, transactionWalletDto);
   }
 
   @Delete(':address')
