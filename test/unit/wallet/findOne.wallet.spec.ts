@@ -24,7 +24,7 @@ describe('scr :: api :: wallet :: WalletService() :: findOne', () => {
         const wallet = await service.findOne(address);
         expect(wallet).toEqual({
           address: expect.any(String),
-          birthdate: expect.any(Date),
+          birthdate: expect.any(String),
           cpf: expect.any(String),
           created_at: expect.any(Date),
           name: expect.any(String),
