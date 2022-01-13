@@ -4,6 +4,7 @@ import CreateWalletDto from './dto/create-wallet.dto';
 import ListWalletDto from './dto/list-wallet.dto';
 import SearchWalletDto from './dto/search-wallet.dto';
 import UpdateWalletDto from './dto/update-wallet.dto';
+import { toDate } from './utils/date-transform';
 import WalletRepository from './wallet.repository';
 
 @Injectable()
@@ -15,6 +16,7 @@ export default class WalletService {
     if (exist) {
       throw new BadRequestException('Wallet already exists for this CPF.');
     }
+    createWalletDto.birthdate = toDate(createWalletDto.birthdate as string);
     const wallet = await this.walletRepo.insertWallet(createWalletDto);
     return wallet;
   }

@@ -1,5 +1,6 @@
-import { Exclude } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { toDate, toStringDate } from '../utils/date-transform';
 
 @Entity('wallet')
 export default class Wallet {
@@ -12,8 +13,13 @@ export default class Wallet {
   @Column({ nullable: false, unique: true })
   cpf: string;
 
-  @Column({ nullable: false })
-  birthdate: Date;
+  @Column({
+    nullable: false,
+    type: 'date',
+    transformer: { to: (value: string) => toDate(value), from: (value: Date) => toStringDate(value) }
+  })
+  @Transform(({ value }) => toStringDate(value))
+  birthdate: Date | string;
 
   coins: string[];
 
@@ -28,4 +34,8 @@ export default class Wallet {
     select: false
   })
   updated_at: Date;
+
+  constructor(partial: Partial<Wallet>) {
+    Object.assign(this, partial);
+  }
 }

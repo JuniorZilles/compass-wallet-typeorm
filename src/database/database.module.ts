@@ -20,7 +20,6 @@ import Wallet from '../wallet/entities/wallet.entity';
       entities: [Wallet],
       autoLoadEntities: process.env.NODE_ENV === 'test',
       synchronize: process.env.NODE_ENV === 'test',
-
       logging: false
     })
   ]

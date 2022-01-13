@@ -1,11 +1,12 @@
 import * as Chance from 'chance';
+import * as moment from 'moment';
 import { v4 } from 'uuid';
 
 export const oneWallet = () => {
   const chance = new Chance();
   return {
     name: chance.name(),
-    birthdate: chance.birthday(),
+    birthdate: moment(chance.birthday()).format('DD/MM/YYYY'),
     cpf: chance.cpf()
   };
 };
