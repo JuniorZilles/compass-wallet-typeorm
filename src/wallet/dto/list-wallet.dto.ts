@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import CreateWalletDto from './create-wallet.dto';
+import Wallet from '../entities/wallet.entity';
 
 export default class ListWalletDto {
   @ApiProperty({
     description: 'List of selected wallets',
     isArray: true,
-    type: () => CreateWalletDto
+    type: () => Wallet
   })
-  wallet: CreateWalletDto[];
+  wallet: Wallet[];
 }

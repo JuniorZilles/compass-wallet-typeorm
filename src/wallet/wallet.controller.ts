@@ -31,6 +31,8 @@ import CreateWalletDto from './dto/create-wallet.dto';
 import ListWalletDto from './dto/list-wallet.dto';
 import SearchWalletDto from './dto/search-wallet.dto';
 import TransactionWalletDto from './dto/transaction-wallet.dto';
+import ListCoinsDto from './dto/list-coins.dto';
+import Wallet from './entities/wallet.entity';
 
 @ApiTags('wallet')
 @Controller({ path: '/wallet', version: '1' })
@@ -55,21 +57,21 @@ export default class WalletController {
   }
 
   @Get(':address')
-  @ApiOkResponse({ description: 'Operation succeeded.', type: CreateWalletDto })
+  @ApiOkResponse({ description: 'Operation succeeded.', type: Wallet })
   @ApiNotFoundResponse({ description: 'Searched wallet was not found.', type: ErrorDto })
-  async findOne(@Param('address', ParseUUIDPipe) address: string): Promise<CreateWalletDto> {
+  async findOne(@Param('address', ParseUUIDPipe) address: string): Promise<Wallet> {
     const result = await this.walletService.findOne(address);
     return result;
   }
 
   @Put(':address')
   @ApiBody({ type: TransactionWalletDto, isArray: true })
-  @ApiOkResponse({ description: 'Operation succeeded.', type: TransactionWalletDto, isArray: true })
+  @ApiOkResponse({ description: 'Operation succeeded.', type: ListCoinsDto, isArray: true })
   @ApiNotFoundResponse({ description: 'Searched wallet was not found.', type: ErrorDto })
   update(
     @Param('address', ParseUUIDPipe) address: string,
     @Body() transactionWalletDto: TransactionWalletDto[]
-  ): TransactionWalletDto[] {
+  ): Promise<ListCoinsDto> {
     return this.walletService.executeTransaction(address, transactionWalletDto);
   }
 

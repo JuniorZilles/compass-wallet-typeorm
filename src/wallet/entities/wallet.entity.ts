@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
   Column,
@@ -13,15 +14,30 @@ import Coin from './coin.entity';
 
 @Entity('wallet')
 export default class Wallet {
+  @ApiProperty({
+    description: 'Person identifier Address'
+  })
   @PrimaryGeneratedColumn('uuid')
   address: string;
 
+  @ApiProperty({
+    description: 'Person Name'
+  })
   @Column({ nullable: false })
   name: string;
 
+  @ApiProperty({
+    description: 'CPF of the person',
+    format: 'XXX.XXX.XXX-XX'
+  })
   @Column({ nullable: false, unique: true })
   cpf: string;
 
+  @ApiProperty({
+    description: 'BirthDate of the person',
+    format: 'DD/MM/YYYY',
+    type: String
+  })
   @Column({
     nullable: false,
     type: 'date',
@@ -30,6 +46,11 @@ export default class Wallet {
   @Transform(({ value }) => toStringDate(value))
   birthdate: Date | string;
 
+  @ApiProperty({
+    description: 'List of the coins of a wallet',
+    isArray: true,
+    type: () => Coin
+  })
   @JoinTable()
   @OneToMany(() => Coin, (coin) => coin.wallet, { onDelete: 'CASCADE', cascade: true })
   coins: Coin[];

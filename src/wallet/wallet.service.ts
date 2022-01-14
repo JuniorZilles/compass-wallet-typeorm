@@ -1,9 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import CreateWalletDto from './dto/create-wallet.dto';
+import ListCoinsDto from './dto/list-coins.dto';
 import ListWalletDto from './dto/list-wallet.dto';
 import SearchWalletDto from './dto/search-wallet.dto';
 import TransactionWalletDto from './dto/transaction-wallet.dto';
+import Wallet from './entities/wallet.entity';
 import { toDate } from './utils/date-transform';
 import WalletRepository from './wallet.repository';
 
@@ -25,7 +27,7 @@ export default class WalletService {
     return new ListWalletDto();
   }
 
-  async findOne(address: string): Promise<CreateWalletDto> {
+  async findOne(address: string): Promise<Wallet> {
     const result = await this.walletRepo.findOneWallet({ address });
     if (!result || Object.keys(result).length === 0) {
       throw new NotFoundException('Wallet not found for the searched address.');
@@ -33,11 +35,11 @@ export default class WalletService {
     return result;
   }
 
-  executeTransaction(address: string, updateWalletDto: TransactionWalletDto[]): TransactionWalletDto[] {
-    return updateWalletDto;
+  async executeTransaction(address: string, transactionWalletDto: TransactionWalletDto[]): Promise<ListCoinsDto> {
+    return new ListCoinsDto();
   }
 
-  async remove(address: string): Promise<CreateWalletDto> {
+  async remove(address: string): Promise<Wallet> {
     const result = await this.walletRepo.removeWallet(address);
     if (!result) {
       throw new NotFoundException('Wallet not found for the used address.');

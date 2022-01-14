@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import ListCoinsDto from '../dto/list-coins.dto';
 import CreateTransactionDto from './dto/create-transaction.dto';
+import SearchTransactionDto from './dto/search-transaction.dto';
 
 @Injectable()
 export default class TransactionService {
-  create(createTransactionDto: CreateTransactionDto) {
-    return 'This action adds a new transaction';
+  async create(createTransactionDto: CreateTransactionDto): Promise<ListCoinsDto> {
+    return new ListCoinsDto();
   }
 
-  findAll() {
-    return `This action returns all transaction`;
+  async findAll(payload: SearchTransactionDto): Promise<ListCoinsDto> {
+    return new ListCoinsDto();
   }
 }

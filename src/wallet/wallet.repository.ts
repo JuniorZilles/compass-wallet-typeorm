@@ -11,12 +11,12 @@ export default class WalletRepository extends Repository<Wallet> {
     return wallet;
   }
 
-  async findOneWallet(payload: SearchWalletDto): Promise<CreateWalletDto> {
+  async findOneWallet(payload: SearchWalletDto): Promise<Wallet> {
     const result = await this.findOne(payload, { relations: ['coin', 'transaction'] });
     return result;
   }
 
-  async removeWallet(address: string): Promise<CreateWalletDto> {
+  async removeWallet(address: string): Promise<Wallet> {
     const result = await this.delete(address);
     if (result.affected > 0) {
       return result.raw;

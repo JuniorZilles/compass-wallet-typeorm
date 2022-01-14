@@ -35,7 +35,7 @@ describe('scr :: api :: wallet :: WalletService() :: findOne', () => {
       });
     });
 
-    describe('WHEN searching for a specific that do not exists', () => {
+    describe('WHEN searching for a specific wallet that do not exists', () => {
       it('THEN it should throw a error', async () => {
         try {
           await service.findOne(addressFactory);

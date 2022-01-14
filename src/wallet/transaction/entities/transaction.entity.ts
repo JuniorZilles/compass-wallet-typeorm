@@ -1,4 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
+import Wallet from 'src/wallet/entities/wallet.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import Coin from '../../entities/coin.entity';
 
@@ -8,9 +10,15 @@ export default class Transaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @ApiProperty({
+    description: 'Value of the transaction'
+  })
   @Column({ nullable: false })
   value: number;
 
+  @ApiProperty({
+    description: 'Date of the transaction'
+  })
   @Column({
     nullable: false,
     type: 'date',
@@ -18,12 +26,23 @@ export default class Transaction {
   })
   datetime: Date;
 
-  @Column({ nullable: false })
-  sendTo: string;
+  @ApiProperty({
+    description: 'Wallet to send value',
+    type: String
+  })
+  @ManyToOne(() => Wallet, (wallet) => wallet.address)
+  sendTo: Wallet;
 
-  @Column({ nullable: false })
-  receiveFrom: string;
+  @ApiProperty({
+    description: 'Wallet to receive value',
+    type: String
+  })
+  @ManyToOne(() => Wallet, (wallet) => wallet.address)
+  receiveFrom: Wallet;
 
+  @ApiProperty({
+    description: 'Current cotation of the coin'
+  })
   @Column({ nullable: false })
   currentCotation: number;
 
