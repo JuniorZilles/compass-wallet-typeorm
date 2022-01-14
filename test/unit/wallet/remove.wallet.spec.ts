@@ -2,13 +2,13 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import WalletRepository from '../../../src/wallet/wallet.repository';
 import WalletService from '../../../src/wallet/wallet.service';
-import { MOCKWALLETREPOSITORY, GENERATED } from '../../utils/mocks/wallet.repo.mock';
+import { getGenerated, MOCKWALLETREPOSITORY } from '../../utils/mocks/repos.mock';
 import addressFactory from '../../utils/factory/address.factory';
 
 describe('scr :: api :: wallet :: WalletService() :: remove', () => {
   describe('GIVEN a mocked repository AND 5 mocked registers', () => {
     let service: WalletService;
-    const { address } = GENERATED[3];
+    const { address } = getGenerated(3);
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [WalletRepository, WalletService]

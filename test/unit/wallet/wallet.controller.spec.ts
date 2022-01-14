@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MOCKWALLETREPOSITORY } from '../../utils/mocks/wallet.repo.mock';
+import { MOCKWALLETREPOSITORY } from '../../utils/mocks/repos.mock';
 import WalletRepository from '../../../src/wallet/wallet.repository';
 import WalletController from '../../../src/wallet/wallet.controller';
 import WalletService from '../../../src/wallet/wallet.service';

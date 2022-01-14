@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { oneWallet } from '../../utils/factory/wallet.factory';
 import WalletRepository from '../../../src/wallet/wallet.repository';
 import WalletService from '../../../src/wallet/wallet.service';
-import { MOCKWALLETREPOSITORY, GENERATED } from '../../utils/mocks/wallet.repo.mock';
+import { getGenerated, MOCKWALLETREPOSITORY } from '../../utils/mocks/repos.mock';
 
 describe('scr :: api :: wallet :: WalletService() :: create', () => {
   describe('GIVEN a mocked repository', () => {
@@ -38,7 +38,8 @@ describe('scr :: api :: wallet :: WalletService() :: create', () => {
 
     describe('WHEN creating a new wallet with a existing CPF', () => {
       it('THEN the WalletService should throw a error', async () => {
-        const wallet = { ...walletFactory, cpf: GENERATED[0].cpf };
+        const generated = getGenerated(0);
+        const wallet = { ...walletFactory, cpf: generated.cpf };
         try {
           await service.create(wallet);
 

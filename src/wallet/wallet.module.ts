@@ -4,10 +4,12 @@ import TransactionModule from './transaction/transaction.module';
 import WalletService from './wallet.service';
 import WalletController from './wallet.controller';
 import WalletRepository from './wallet.repository';
+import CoinsRepository from './coins.repository';
+import TransactionRepository from './transaction/transaction.repository';
 
 @Module({
   controllers: [WalletController],
   providers: [WalletService],
-  imports: [TypeOrmModule.forFeature([WalletRepository]), TransactionModule]
+  imports: [TypeOrmModule.forFeature([WalletRepository, CoinsRepository, TransactionRepository]), TransactionModule]
 })
 export default class WalletModule {}

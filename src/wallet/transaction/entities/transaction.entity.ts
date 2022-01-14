@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import Wallet from 'src/wallet/entities/wallet.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import Wallet from '../../entities/wallet.entity';
 import Coin from '../../entities/coin.entity';
 
 @Entity('transaction')
