@@ -42,7 +42,9 @@ describe('scr :: api :: wallet :: WalletController() :: create (e2e)', () => {
           address: expect.any(String),
           birthdate: expect.any(String),
           cpf: expect.any(String),
-          name: expect.any(String)
+          created_at: expect.any(String),
+          name: expect.any(String),
+          updated_at: expect.any(String)
         });
         const { body } = response;
 

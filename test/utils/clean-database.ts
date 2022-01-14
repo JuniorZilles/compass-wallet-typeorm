@@ -5,7 +5,7 @@ export default async (): Promise<void> => {
 
   const items = entities.map((entity) => {
     const repository = getConnection().getRepository(entity.tableName);
-    return repository.clear();
+    return repository.delete({});
   });
   await Promise.all(items);
 };
