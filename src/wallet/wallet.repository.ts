@@ -12,7 +12,7 @@ export default class WalletRepository extends Repository<Wallet> {
   }
 
   async findOneWallet(payload: SearchWalletDto): Promise<CreateWalletDto> {
-    const result = await this.findOne(payload);
+    const result = await this.findOne(payload, { relations: ['coin', 'transaction'] });
     return result;
   }
 

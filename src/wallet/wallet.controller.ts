@@ -24,6 +24,7 @@ import {
   ApiQuery,
   ApiTags
 } from '@nestjs/swagger';
+import BadRequestErrorDto from '../dto/bad-request.dto';
 import ErrorDto from '../dto/error.dto';
 import WalletService from './wallet.service';
 import CreateWalletDto from './dto/create-wallet.dto';
@@ -34,7 +35,7 @@ import TransactionWalletDto from './dto/transaction-wallet.dto';
 @ApiTags('wallet')
 @Controller({ path: '/wallet', version: '1' })
 @UseInterceptors(ClassSerializerInterceptor)
-@ApiBadRequestResponse({ description: 'Bad Request.', type: ErrorDto })
+@ApiBadRequestResponse({ description: 'Bad Request.', type: BadRequestErrorDto })
 @ApiInternalServerErrorResponse({ description: 'Internal Server Error.', type: ErrorDto })
 export default class WalletController {
   constructor(private readonly walletService: WalletService) {}
