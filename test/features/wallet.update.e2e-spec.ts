@@ -4,6 +4,7 @@ import * as request from 'supertest';
 import AppModule from '../../src/app.module';
 import cleanDatabase from '../utils/clean-database';
 import { oneWallet } from '../utils/factory/wallet.factory';
+import transactionFactory from '../utils/factory/transaction.factory';
 
 describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
   describe('GIVEN a existing wallet', () => {
@@ -33,49 +34,37 @@ describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
     });
 
     afterAll(async () => {
+      await cleanDatabase();
       await app.close();
     });
-    afterEach(async () => {
-      await cleanDatabase();
-    });
 
-    describe('WHEN creating a valid new wallet / (PUT)', () => {
-      it('THEN it should return a new wallet', async () => {
-        const response = await request(app.getHttpServer()).post('/wallet').send(walletFactory);
-        expect(response.status).toBe(201);
+    describe('WHEN requested to make a deposit to a wallet / (PUT)', () => {
+      it('THEN it should return status 200 with the defined structure ', async () => {
+        const response = await request(app.getHttpServer()).put(`/wallet/${address}`).send([transactionFactory()]);
+        expect(response.status).toBe(200);
         expect(response.body).toEqual({
-          address: expect.any(String),
-          birthdate: expect.any(String),
-          cpf: expect.any(String),
-          name: expect.any(String)
+          coins: expect.arrayContaining([
+            {
+              amount: expect.any(Number),
+              coin: expect.any(String),
+              fullname: expect.any(String),
+              transactions: expect.arrayContaining([
+                {
+                  currentCotation: expect.any(Number),
+                  datetime: expect.any(String),
+                  receiveFrom: expect.any(String),
+                  sendTo: expect.any(String),
+                  value: expect.any(Number)
+                }
+              ])
+            }
+          ])
         });
-        const { body } = response;
-
-        expect(body.cpf).toBe(walletFactory.cpf);
-        expect(body.birthdate).toBe(walletFactory.birthdate);
-        expect(body.name).toBe(walletFactory.name);
       });
     });
 
     describe('WHEN creating a new wallet with missing attributes / (PUT)', () => {
-      it('THEN it should return a bad request for missing birthdate', async () => {
-        const { name, cpf } = walletFactory;
-        const response = await request(app.getHttpServer()).post('/wallet').send({ name, cpf });
-        expect(response.status).toBe(400);
-        expect(response.body).toEqual({
-          statusCode: expect.any(Number),
-          message: expect.arrayContaining([expect.any(String)]),
-          error: expect.any(String)
-        });
-        const { body } = response;
-
-        expect(body.statusCode).toBe(400);
-        expect(body.message).toEqual([
-          'The informed date is invalid, it should have the format of dd/mm/yyyy and be greater than 18 years from now',
-          'birthdate should not be empty'
-        ]);
-        expect(body.error).toBe('Bad Request');
-      });
+      it('THEN it should return a bad request for missing birthdate', async () => {});
     });
   });
 });

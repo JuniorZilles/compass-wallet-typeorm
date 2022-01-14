@@ -37,6 +37,6 @@ export default class Coin {
   @ApiProperty({
     description: 'Coin amount'
   })
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'decimal' })
   amount: number;
 }

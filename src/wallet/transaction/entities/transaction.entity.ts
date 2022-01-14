@@ -13,7 +13,7 @@ export default class Transaction {
   @ApiProperty({
     description: 'Value of the transaction'
   })
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'decimal' })
   value: number;
 
   @ApiProperty({
@@ -43,7 +43,7 @@ export default class Transaction {
   @ApiProperty({
     description: 'Current cotation of the coin'
   })
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'decimal' })
   currentCotation: number;
 
   @ManyToOne(() => Coin, (coin) => coin.id)

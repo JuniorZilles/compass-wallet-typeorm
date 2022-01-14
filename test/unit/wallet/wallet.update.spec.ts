@@ -71,7 +71,12 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
     describe('WHEN user makes a deposit to a wallet AND the used coin is not registered for the wallet', () => {
       it('THEN should create the entry of the coin with a transaction', async () => {
         const transaction = transactionFactory();
-        const result = await service.executeTransaction(wallet.address, [transaction]);
+        const { coins, address } = wallet;
+        const coinFind = coins.find((coin) => coin.coin === transaction.quoteTo);
+        if (coinFind) {
+          transaction.quoteTo = 'IQD';
+        }
+        const result = await service.executeTransaction(address, [transaction]);
         expect(result.coins).toHaveLength(1);
         expect(result.coins[0].amount).toBeGreaterThan(0);
         expect(result.coins[0].coin).toBe(transaction.quoteTo);
@@ -120,6 +125,36 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
         expect(result.coins[0].transactions.at(-1).sendTo).toBe(address);
         expect(result.coins[0].transactions.at(-1).value).toBe(transaction.value);
         expect(result.coins[0].transactions.at(-1).datetime).toBeDefined();
+        expect(MOCKWALLETREPOSITORY.findOneWallet).toHaveBeenCalledWith({ address });
+        expect(MOCKCOINREPOSITORY.create).toHaveBeenCalled();
+      });
+    });
+
+    describe('WHEN user makes a deposit AND a withdraw at the same time', () => {
+      it('THEN should create the entry of the coin with a transaction', async () => {
+        const { coins, address } = wallet;
+        const transactionA = transactionFactory(coins[0].coin, true);
+        const transactionB = transactionFactory(coins[1].coin);
+        coins[0].amount = 6000000;
+        const { amount } = coins[0];
+        const transA = coins[0].transactions.length;
+        const transB = coins[1].transactions.length;
+        const result = await service.executeTransaction(address, [transactionA, transactionB]);
+        expect(result.coins).toHaveLength(2);
+        expect(result.coins[0].amount).toBeLessThan(amount);
+        expect(result.coins[0].coin).toBe(coins[0].coin);
+        expect(result.coins[0].transactions).toHaveLength(transA + 1);
+        expect(result.coins[0].transactions.at(-1).receiveFrom).toBe(address);
+        expect(result.coins[0].transactions.at(-1).sendTo).toBe(address);
+        expect(result.coins[0].transactions.at(-1).value).toBe(transactionA.value);
+        expect(result.coins[0].transactions.at(-1).datetime).toBeDefined();
+        expect(result.coins[1].amount).toBeGreaterThanOrEqual(coins[1].amount);
+        expect(result.coins[1].coin).toBe(coins[1].coin);
+        expect(result.coins[1].transactions).toHaveLength(transB + 1);
+        expect(result.coins[1].transactions.at(-1).receiveFrom).toBe(address);
+        expect(result.coins[1].transactions.at(-1).sendTo).toBe(address);
+        expect(result.coins[1].transactions.at(-1).value).toBe(transactionB.value);
+        expect(result.coins[1].transactions.at(-1).datetime).toBeDefined();
         expect(MOCKWALLETREPOSITORY.findOneWallet).toHaveBeenCalledWith({ address });
         expect(MOCKCOINREPOSITORY.create).toHaveBeenCalled();
       });
