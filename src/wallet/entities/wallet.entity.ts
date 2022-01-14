@@ -1,6 +1,15 @@
 import { Transform } from 'class-transformer';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 import { toDate, toStringDate } from '../utils/date-transform';
+import Coin from './coin.entity';
 
 @Entity('wallet')
 export default class Wallet {
@@ -21,7 +30,9 @@ export default class Wallet {
   @Transform(({ value }) => toStringDate(value))
   birthdate: Date | string;
 
-  coins: string[];
+  @JoinTable()
+  @OneToMany(() => Coin, (coin) => coin.wallet, { onDelete: 'CASCADE', cascade: true })
+  coins: Coin[];
 
   @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at: Date;
