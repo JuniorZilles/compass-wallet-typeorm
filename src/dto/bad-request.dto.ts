@@ -1,8 +1,6 @@
-'statusCode';
-
 import { ApiProperty } from '@nestjs/swagger';
 
-export default class ErrorDto {
+export default class BadRequestErrorDto {
   @ApiProperty({
     description: 'Status code',
     readOnly: true
@@ -13,7 +11,7 @@ export default class ErrorDto {
     description: 'Error messages',
     readOnly: true
   })
-  message: string;
+  message: string[];
 
   @ApiProperty({
     description: 'Error title',
