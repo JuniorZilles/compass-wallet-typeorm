@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength, Validate } from 'class-validator';
+import PageDto from 'src/dto/page.dto';
 import CustomCpfValidator from '../utils/validators/custom-cpf-validator';
 import CustomDateIsOlderAgeValidator from '../utils/validators/custom-date-age-validator';
 import CustomDateValidator from '../utils/validators/custom-date-validator';
 
-export default class SearchWalletDto {
+export default class SearchWalletDto extends PageDto {
   @ApiProperty({
     description: 'Person Name',
     required: false
