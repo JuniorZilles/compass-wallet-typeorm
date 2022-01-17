@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import AppModule from '../../src/app.module';
-import cleanDatabase from '../utils/clean-database';
 import { oneWallet } from '../utils/factory/wallet.factory';
 
 describe('scr :: api :: wallet :: WalletController() :: create (e2e)', () => {
@@ -29,9 +28,6 @@ describe('scr :: api :: wallet :: WalletController() :: create (e2e)', () => {
 
     afterAll(async () => {
       await app.close();
-    });
-    afterEach(async () => {
-      await cleanDatabase();
     });
 
     describe('WHEN creating a valid new wallet / (POST)', () => {

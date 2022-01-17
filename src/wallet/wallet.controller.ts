@@ -11,7 +11,8 @@ import {
   Put,
   Query,
   HttpCode,
-  HttpStatus
+  HttpStatus,
+  ParseArrayPipe
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -70,7 +71,7 @@ export default class WalletController {
   @ApiNotFoundResponse({ description: 'Searched wallet was not found.', type: ErrorDto })
   update(
     @Param('address', ParseUUIDPipe) address: string,
-    @Body() transactionWalletDto: TransactionWalletDto[]
+    @Body(new ParseArrayPipe({ items: TransactionWalletDto })) transactionWalletDto: TransactionWalletDto[]
   ): Promise<ListCoinsDto> {
     return this.walletService.executeTransaction(address, transactionWalletDto);
   }

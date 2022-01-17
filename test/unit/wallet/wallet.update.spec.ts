@@ -43,7 +43,7 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
 
     describe('WHEN user makes a valid action to a wallet', () => {
       it('THEN should return all handled coins AND its transactions', async () => {
-        const result = await service.executeTransaction(wallet.address, [transactionFactory()]);
+        const result = await service.executeTransaction(wallet.address, [transactionFactory({})]);
         expect(result).toEqual({
           coins: expect.arrayContaining([
             {
@@ -70,7 +70,7 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
 
     describe('WHEN user makes a deposit to a wallet AND the used coin is not registered for the wallet', () => {
       it('THEN should create the entry of the coin with a transaction', async () => {
-        const transaction = transactionFactory();
+        const transaction = transactionFactory({});
         const { coins, address } = wallet;
         const coinFind = coins.find((coin) => coin.coin === transaction.quoteTo);
         if (coinFind) {
@@ -93,7 +93,7 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
     describe('WHEN user makes a deposit to a wallet to a registered coin', () => {
       it('THEN the current amount of the specified coin should be increased AND a new transaction created for the specified coin', async () => {
         const { coins, address } = wallet;
-        const transaction = transactionFactory(coins[0].coin);
+        const transaction = transactionFactory({ quoteTo: coins[0].coin });
         const trans = coins[0].transactions.length;
         const result = await service.executeTransaction(address, [transaction]);
         expect(result.coins).toHaveLength(1);
@@ -112,7 +112,7 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
     describe('WHEN user makes a withdraw from a coin of the wallet', () => {
       it('THEN the current amount of the specified coin should be decreased AND a new transaction be created', async () => {
         const { coins, address } = wallet;
-        const transaction = transactionFactory(coins[0].coin, true);
+        const transaction = transactionFactory({ quoteTo: coins[0].coin, negative: true });
         coins[0].amount = 6000000;
         const { amount } = coins[0];
         const trans = coins[0].transactions.length;
@@ -133,8 +133,8 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
     describe('WHEN user makes a deposit AND a withdraw at the same time', () => {
       it('THEN should create the entry of the coin with a transaction', async () => {
         const { coins, address } = wallet;
-        const transactionA = transactionFactory(coins[0].coin, true);
-        const transactionB = transactionFactory(coins[1].coin);
+        const transactionA = transactionFactory({ quoteTo: coins[0].coin, negative: true });
+        const transactionB = transactionFactory({ quoteTo: coins[1].coin });
         coins[0].amount = 6000000;
         const { amount } = coins[0];
         const transA = coins[0].transactions.length;
@@ -164,7 +164,7 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
       it('THEN it should not execute the transaction', async () => {
         const { address } = wallet;
         try {
-          const transaction = transactionFactory('EUR', true);
+          const transaction = transactionFactory({ quoteTo: 'EUR', negative: true });
           await service.executeTransaction(address, [transaction]);
         } catch (e) {
           expect(e).toBeInstanceOf(BadRequestException);
@@ -179,7 +179,7 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
     describe('WHEN user executes action to a specific wallet that do not exists', () => {
       it('THEN it should throw a error', async () => {
         try {
-          await service.executeTransaction(addressFactory, [transactionFactory()]);
+          await service.executeTransaction(addressFactory, [transactionFactory({})]);
         } catch (e) {
           expect(e).toBeInstanceOf(NotFoundException);
           expect((<NotFoundException>e).name).toBe('NotFoundException');

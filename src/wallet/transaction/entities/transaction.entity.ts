@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import Wallet from '../../entities/wallet.entity';
 import Coin from '../../entities/coin.entity';
@@ -31,6 +31,7 @@ export default class Transaction {
     type: String
   })
   @ManyToOne(() => Wallet, (wallet) => wallet.address)
+  @Transform(({ value }) => value.address)
   sendTo: Wallet;
 
   @ApiProperty({
@@ -38,6 +39,7 @@ export default class Transaction {
     type: String
   })
   @ManyToOne(() => Wallet, (wallet) => wallet.address)
+  @Transform(({ value }) => value.address)
   receiveFrom: Wallet;
 
   @ApiProperty({
@@ -48,4 +50,8 @@ export default class Transaction {
 
   @ManyToOne(() => Coin, (coin) => coin.id)
   coin: Coin;
+
+  constructor(partial: Partial<Transaction>) {
+    Object.assign(this, partial);
+  }
 }

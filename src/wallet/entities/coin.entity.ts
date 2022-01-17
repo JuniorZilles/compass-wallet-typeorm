@@ -10,6 +10,7 @@ export default class Coin {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Exclude()
   @ManyToOne(() => Wallet, (wallet) => wallet.address)
   wallet: Wallet;
 
@@ -37,6 +38,14 @@ export default class Coin {
   @ApiProperty({
     description: 'Coin amount'
   })
-  @Column({ nullable: false, type: 'decimal' })
+  @Column({
+    nullable: false,
+    type: 'decimal',
+    transformer: { from: (value: string) => parseFloat(value), to: (value: number) => value.toString() }
+  })
   amount: number;
+
+  constructor(partial: Partial<Coin>) {
+    Object.assign(this, partial);
+  }
 }

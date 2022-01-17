@@ -47,7 +47,7 @@ export default class WalletService {
     const transactions = await Promise.all(
       transactionWalletDto.map(async (transaction) => {
         const { quoteTo, currentCoin, value } = transaction;
-        const coin = await this.coinRepo.findOne({ coin: transaction.quoteTo, wallet });
+        const coin = await this.coinRepo.findCoin(transaction.quoteTo, wallet);
         const cotation = await getConversion(currentCoin, quoteTo);
         const transacValue = value * Number(cotation.bid);
         if (!coin) {
@@ -56,7 +56,7 @@ export default class WalletService {
               coin: transaction.quoteTo,
               amount: transacValue,
               wallet,
-              fullname: cotation.name,
+              fullname: cotation.name.split('/')[0],
               transactions: [
                 {
                   receiveFrom: wallet,

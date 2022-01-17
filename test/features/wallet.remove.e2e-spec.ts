@@ -3,7 +3,6 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import addressFactory from '../utils/factory/address.factory';
 import AppModule from '../../src/app.module';
-import cleanDatabase from '../utils/clean-database';
 import { oneWallet } from '../utils/factory/wallet.factory';
 
 describe('scr :: api :: wallet :: WalletController() :: remove (e2e)', () => {
@@ -35,7 +34,6 @@ describe('scr :: api :: wallet :: WalletController() :: remove (e2e)', () => {
     });
 
     afterAll(async () => {
-      await cleanDatabase();
       await app.close();
     });
 
