@@ -39,8 +39,8 @@ export const MOCKWALLETREPOSITORY = {
       raw: GENERATED[index]
     };
   }),
-  remove: jest.fn((address) => {
-    const index = GENERATED.findIndex((wallet) => wallet.address === address);
+  remove: jest.fn((search) => {
+    const index = GENERATED.findIndex((wallet) => wallet.address === search.address);
     if (index === -1) {
       return null;
     }
@@ -50,7 +50,7 @@ export const MOCKWALLETREPOSITORY = {
 };
 
 export const MOCKCOINREPOSITORY = {
-  findOne: jest.fn(({ coin, wallet }) => {
+  findCoin: jest.fn((coin, wallet) => {
     const index = GENERATED.findIndex((reg) => reg.address === wallet.address);
     if (index === -1) {
       return null;

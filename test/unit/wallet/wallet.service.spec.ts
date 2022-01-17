@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import CoinsRepository from '../../../src/wallet/coins.repository';
+import TransactionRepository from '../../../src/wallet/transaction/transaction.repository';
 import WalletRepository from '../../../src/wallet/wallet.repository';
 import WalletService from '../../../src/wallet/wallet.service';
 
@@ -9,8 +11,15 @@ describe('scr :: api :: wallet :: WalletService()', () => {
 
       beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-          providers: [WalletRepository, WalletService]
-        }).compile();
+          providers: [WalletRepository, CoinsRepository, TransactionRepository, WalletService]
+        })
+          .overrideProvider(WalletRepository)
+          .useValue({})
+          .overrideProvider(CoinsRepository)
+          .useValue({})
+          .overrideProvider(TransactionRepository)
+          .useValue({})
+          .compile();
 
         service = module.get<WalletService>(WalletService);
       });
@@ -32,7 +41,7 @@ describe('scr :: api :: wallet :: WalletService()', () => {
       });
 
       it('THEN the WalletService should have a update method', () => {
-        expect(service).toHaveProperty('update');
+        expect(service).toHaveProperty('executeTransaction');
       });
 
       it('THEN the WalletService should have a remove method', () => {

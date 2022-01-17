@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MOCKWALLETREPOSITORY } from '../../utils/mocks/repos.mock';
+import CoinsRepository from '../../../src/wallet/coins.repository';
+import TransactionRepository from '../../../src/wallet/transaction/transaction.repository';
 import WalletRepository from '../../../src/wallet/wallet.repository';
 import WalletController from '../../../src/wallet/wallet.controller';
 import WalletService from '../../../src/wallet/wallet.service';
@@ -12,10 +13,14 @@ describe('scr :: api :: wallet :: WalletController()', () => {
       beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
           controllers: [WalletController],
-          providers: [WalletRepository, WalletService]
+          providers: [WalletRepository, CoinsRepository, TransactionRepository, WalletService]
         })
           .overrideProvider(WalletRepository)
-          .useValue(MOCKWALLETREPOSITORY)
+          .useValue({})
+          .overrideProvider(CoinsRepository)
+          .useValue({})
+          .overrideProvider(TransactionRepository)
+          .useValue({})
           .compile();
 
         controller = module.get<WalletController>(WalletController);

@@ -45,9 +45,7 @@ describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
       address = response.body.address;
 
       const responsePut = await request(app.getHttpServer()).put(`/wallet/${address}`).send(transactions);
-      if (responsePut.status !== 200) {
-        console.log(responsePut.body);
-      }
+
       expect(responsePut.status).toBe(200);
 
       responsePut.body.coins.forEach((coin: Coin) => {

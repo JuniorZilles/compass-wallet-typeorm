@@ -23,7 +23,7 @@ const coin = (address: string, pos: number) => {
       {
         value: chance.floating({ min: 0, max: 100, fixed: 2 }),
         datetime: chance.date(),
-        sendTo: v4(),
+        sendTo: address,
         receiveFrom: address,
         currentCotation: chance.floating({ min: 0, max: 100, fixed: 2 })
       }

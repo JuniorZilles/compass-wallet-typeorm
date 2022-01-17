@@ -172,7 +172,7 @@ describe('scr :: api :: wallet :: WalletService() :: executeTransaction', () => 
           expect((<BadRequestException>e).message).toBe('Insufficient funds for EUR.');
         }
         expect(MOCKWALLETREPOSITORY.findOneWallet).toHaveBeenCalledWith({ address });
-        expect(MOCKCOINREPOSITORY.findOne).toHaveBeenCalled();
+        expect(MOCKCOINREPOSITORY.findCoin).toHaveBeenCalled();
       });
     });
 

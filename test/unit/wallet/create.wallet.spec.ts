@@ -4,6 +4,8 @@ import { oneWallet } from '../../utils/factory/wallet.factory';
 import WalletRepository from '../../../src/wallet/wallet.repository';
 import WalletService from '../../../src/wallet/wallet.service';
 import { getGenerated, MOCKWALLETREPOSITORY } from '../../utils/mocks/repos.mock';
+import CoinsRepository from '../../../src/wallet/coins.repository';
+import TransactionRepository from '../../../src/wallet/transaction/transaction.repository';
 
 describe('scr :: api :: wallet :: WalletService() :: create', () => {
   describe('GIVEN a mocked repository', () => {
@@ -11,10 +13,14 @@ describe('scr :: api :: wallet :: WalletService() :: create', () => {
     const walletFactory = oneWallet();
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
-        providers: [WalletRepository, WalletService]
+        providers: [WalletRepository, CoinsRepository, TransactionRepository, WalletService]
       })
         .overrideProvider(WalletRepository)
         .useValue(MOCKWALLETREPOSITORY)
+        .overrideProvider(CoinsRepository)
+        .useValue({})
+        .overrideProvider(TransactionRepository)
+        .useValue({})
         .compile();
 
       service = module.get<WalletService>(WalletService);
