@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsOptional, IsString, MinLength, Validate } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength, Validate } from 'class-validator';
 import CustomCpfValidator from '../utils/validators/custom-cpf-validator';
 import CustomDateIsOlderAgeValidator from '../utils/validators/custom-date-age-validator';
 import CustomDateValidator from '../utils/validators/custom-date-validator';
@@ -46,6 +46,17 @@ export default class SearchWalletDto {
   @IsNotEmpty()
   @IsNumber()
   amount?: number;
+
+  @ApiProperty({
+    description: 'Currency code',
+    required: false
+  })
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(4)
+  @MinLength(3)
+  coin: string;
 
   @ApiProperty({
     description: 'Creation date',
