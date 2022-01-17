@@ -69,9 +69,9 @@ describe('scr :: api :: wallet :: WalletController() :: findOne (e2e)', () => {
             }
           ]),
           cpf: expect.any(String),
-          created_at: expect.any(String),
+          createdAt: expect.any(String),
           name: expect.any(String),
-          updated_at: expect.any(String)
+          updatedAt: expect.any(String)
         });
         const { body } = response;
 

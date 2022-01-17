@@ -47,13 +47,13 @@ export default class Wallet {
   coins: Coin[];
 
   @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP(6)' })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)'
   })
-  updated_at: Date;
+  updatedAt: Date;
 
   constructor(partial: Partial<Wallet>) {
     Object.assign(this, partial);

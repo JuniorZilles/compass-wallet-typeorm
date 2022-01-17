@@ -18,8 +18,8 @@ export const MOCKWALLETREPOSITORY = {
   insertWallet: jest.fn((dto) => ({
     address: v4(),
     ...dto,
-    created_at: new Date(),
-    updated_at: new Date()
+    createdAt: new Date(),
+    updatedAt: new Date()
   })),
   findOneWallet: jest.fn(({ cpf, address, name, birthdate }) =>
     GENERATED.find(
@@ -32,7 +32,7 @@ export const MOCKWALLETREPOSITORY = {
     GENERATED[index] = {
       ...GENERATED[index],
       ...dto,
-      updated_at: new Date()
+      updatedAt: new Date()
     };
     return {
       affected: index === -1 ? 0 : 1,

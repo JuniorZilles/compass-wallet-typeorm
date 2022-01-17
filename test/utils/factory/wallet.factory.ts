@@ -38,8 +38,8 @@ export const manyWallets = (quantity = 10) => {
     cars.push({
       ...oneWallet(),
       address,
-      created_at: new Date(),
-      updated_at: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       coins: [coin(address, 3), coin(address, 7)]
     });
   }

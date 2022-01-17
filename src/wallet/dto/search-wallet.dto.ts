@@ -56,7 +56,7 @@ export default class SearchWalletDto {
   @IsOptional()
   @IsNotEmpty()
   @Validate(CustomDateValidator)
-  created_at?: string | Date;
+  createdAt?: string | Date;
 
   @ApiProperty({
     description: 'Update date',
@@ -67,7 +67,7 @@ export default class SearchWalletDto {
   @IsOptional()
   @IsNotEmpty()
   @Validate(CustomDateValidator)
-  updated_at?: string | Date;
+  updatedAt?: string | Date;
 
   address?: string;
 }

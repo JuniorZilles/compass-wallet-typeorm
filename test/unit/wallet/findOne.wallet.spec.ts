@@ -48,9 +48,9 @@ describe('scr :: api :: wallet :: WalletService() :: findOne', () => {
             }
           ]),
           cpf: expect.any(String),
-          created_at: expect.any(Date),
+          createdAt: expect.any(Date),
           name: expect.any(String),
-          updated_at: expect.any(Date)
+          updatedAt: expect.any(Date)
         });
 
         expect(MOCKWALLETREPOSITORY.findOneWallet).toHaveBeenCalledWith({ address });

@@ -8,7 +8,7 @@ export default class CoinTransactioRel1642099046480 implements MigrationInterfac
       `CREATE TABLE "transaction" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "value" integer NOT NULL, "datetime" date NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, "sendTo" character varying NOT NULL, "receiveFrom" character varying NOT NULL, "currentCotation" integer NOT NULL, "coinId" uuid, CONSTRAINT "PK_89eadb93a89810556e1cbcd6ab9" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `CREATE TABLE "wallet" ("address" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "cpf" character varying NOT NULL, "birthdate" date NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, "updated_at" TIMESTAMP NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, CONSTRAINT "UQ_a837f14f38d74c05f8f18aba4f5" UNIQUE ("cpf"), CONSTRAINT "PK_1dcc9f5fd49e3dc52c6d2393c53" PRIMARY KEY ("address"))`
+      `CREATE TABLE "wallet" ("address" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "cpf" character varying NOT NULL, "birthdate" date NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, "updatedAt" TIMESTAMP NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, CONSTRAINT "UQ_a837f14f38d74c05f8f18aba4f5" UNIQUE ("cpf"), CONSTRAINT "PK_1dcc9f5fd49e3dc52c6d2393c53" PRIMARY KEY ("address"))`
     );
     await queryRunner.query(
       `CREATE TABLE "coin" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "coin" character varying NOT NULL, "fullname" character varying NOT NULL, "amount" integer NOT NULL, "walletAddress" uuid, CONSTRAINT "PK_650993fc71b789e4793b62fbcac" PRIMARY KEY ("id"))`
