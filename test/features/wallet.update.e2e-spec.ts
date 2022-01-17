@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
+import Coin from '../../src/wallet/entities/coin.entity';
 import addressFactory from '../utils/factory/address.factory';
 import AppModule from '../../src/app.module';
 import { oneWallet } from '../utils/factory/wallet.factory';
@@ -12,7 +13,12 @@ describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
     const walletFactory = oneWallet();
     let address: string;
     const iniAmounts: number[] = [];
-    const transactions = [transactionFactory({}), transactionFactory({})];
+    const transactions = [
+      transactionFactory({ quoteTo: 'PLN' }),
+      transactionFactory({ quoteTo: 'BHD' }),
+      transactionFactory({ quoteTo: 'IRR' }),
+      transactionFactory({ quoteTo: 'GMD' })
+    ];
     const transaction = transactionFactory({});
     beforeAll(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -33,14 +39,20 @@ describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
     });
 
     beforeEach(async () => {
-      const responsePost = await request(app.getHttpServer()).post('/wallet').send(walletFactory);
-      expect(responsePost.status).toBe(201);
-      address = responsePost.body.address;
+      const response = await request(app.getHttpServer()).post('/wallet').send(walletFactory);
+
+      expect(response.status).toBe(201);
+      address = response.body.address;
 
       const responsePut = await request(app.getHttpServer()).put(`/wallet/${address}`).send(transactions);
+      if (responsePut.status !== 200) {
+        console.log(responsePut.body);
+      }
       expect(responsePut.status).toBe(200);
-      iniAmounts.push(responsePut.body.coins[0].amount);
-      iniAmounts.push(responsePut.body.coins[1].amount);
+
+      responsePut.body.coins.forEach((coin: Coin) => {
+        iniAmounts.push(coin.amount);
+      });
     });
 
     afterAll(async () => {
@@ -160,7 +172,7 @@ describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
       describe('AND the used coin already exists', () => {
         describe('AND has enough balance', () => {
           it('THEN it should return status 200 AND body with the used transaction coins with the new amount', async () => {
-            const reqTrans = transactionFactory({ quoteTo: transactions[0].quoteTo, negative: true });
+            const reqTrans = transactionFactory({ quoteTo: transactions[2].quoteTo, negative: true });
             const response = await request(app.getHttpServer()).put(`/wallet/${address}`).send([reqTrans]);
 
             expect(response.status).toBe(200);
@@ -168,7 +180,7 @@ describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
             const { coins } = response.body;
 
             expect(coins).toHaveLength(1);
-            expect(coins[0].amount).toBeLessThan(iniAmounts[0]);
+            expect(coins[0].amount).toBeLessThan(iniAmounts[2]);
             expect(coins[0].coin).toBe(reqTrans.quoteTo);
             expect(coins[0].fullname).toEqual(expect.any(String));
             expect(coins[0].transactions).toHaveLength(2);
@@ -205,7 +217,7 @@ describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
       describe('AND all the used coins already exists', () => {
         describe('AND has enough balance for withdraw', () => {
           it('THEN it should return status 200 AND body with the executed transactions', async () => {
-            const reqWith = transactionFactory({ quoteTo: transactions[0].quoteTo, negative: true });
+            const reqWith = transactionFactory({ quoteTo: transactions[3].quoteTo, negative: true });
             const reqDep = transactionFactory({ quoteTo: transactions[1].quoteTo });
             const response = await request(app.getHttpServer()).put(`/wallet/${address}`).send([reqWith, reqDep]);
 
@@ -214,7 +226,7 @@ describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
             const { coins } = response.body;
 
             expect(coins).toHaveLength(2);
-            expect(coins[0].amount).toBeLessThan(iniAmounts[0]);
+            expect(coins[0].amount).toBeLessThan(iniAmounts[3]);
             expect(coins[0].coin).toBe(reqWith.quoteTo);
             expect(coins[0].fullname).toEqual(expect.any(String));
             expect(coins[0].transactions).toHaveLength(2);
@@ -302,11 +314,13 @@ describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
         const { body } = response;
 
         expect(body.statusCode).toBe(400);
-        expect(body.message).toHaveLength(7);
+        expect(body.message).toHaveLength(9);
         expect(body.message).toEqual([
-          'quoteTo must be longer than or equal to 3 and shorter than or equal to 3 characters',
+          'quoteTo must be longer than or equal to 3 characters',
+          'quoteTo must be shorter than or equal to 4 characters',
           'quoteTo must be a string',
           'currentCoin must be longer than or equal to 3 characters',
+          'currentCoin must be shorter than or equal to 4 characters',
           'currentCoin must be a string',
           'currentCoin should not be empty',
           'value must be a number conforming to the specified constraints',

@@ -14,10 +14,10 @@ export default class CoinTransactioRel1642099046480 implements MigrationInterfac
       `CREATE TABLE "coin" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "coin" character varying NOT NULL, "fullname" character varying NOT NULL, "amount" integer NOT NULL, "walletAddress" uuid, CONSTRAINT "PK_650993fc71b789e4793b62fbcac" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `ALTER TABLE "transaction" ADD CONSTRAINT "FK_830c5089eb6ff83f5bcc3ec3d3c" FOREIGN KEY ("coinId") REFERENCES "coin"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "transaction" ADD CONSTRAINT "FK_830c5089eb6ff83f5bcc3ec3d3c" FOREIGN KEY ("coinId") REFERENCES "coin"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "coin" ADD CONSTRAINT "FK_6a2e9761a5e0e2cdcb68fa30e9e" FOREIGN KEY ("walletAddress") REFERENCES "wallet"("address") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "coin" ADD CONSTRAINT "FK_6a2e9761a5e0e2cdcb68fa30e9e" FOREIGN KEY ("walletAddress") REFERENCES "wallet"("address") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
   }
 

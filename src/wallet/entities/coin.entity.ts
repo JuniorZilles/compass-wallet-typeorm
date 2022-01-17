@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import Transaction from '../transaction/entities/transaction.entity';
 import Wallet from './wallet.entity';
 
@@ -11,7 +11,7 @@ export default class Coin {
   id: string;
 
   @Exclude()
-  @ManyToOne(() => Wallet, (wallet) => wallet.address)
+  @ManyToOne(() => Wallet, (wallet) => wallet.address, { onDelete: 'CASCADE' })
   wallet: Wallet;
 
   @ApiProperty({
@@ -19,8 +19,7 @@ export default class Coin {
     type: Transaction,
     isArray: true
   })
-  @JoinTable()
-  @OneToMany(() => Transaction, (transaction) => transaction.coin, { onDelete: 'CASCADE', cascade: true })
+  @OneToMany(() => Transaction, (transaction) => transaction.coin, { cascade: true })
   transactions: Transaction[];
 
   @ApiProperty({

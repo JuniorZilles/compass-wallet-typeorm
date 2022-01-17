@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
 
 export default class CreateTransactionDto {
   @ApiProperty({
@@ -15,6 +15,8 @@ export default class CreateTransactionDto {
   })
   @IsNotEmpty()
   @IsString()
+  @MaxLength(4)
+  @MinLength(3)
   quoteTo: string;
 
   @ApiProperty({
@@ -22,6 +24,8 @@ export default class CreateTransactionDto {
   })
   @IsNotEmpty()
   @IsString()
+  @MaxLength(4)
+  @MinLength(3)
   currentCoin: string;
 
   @ApiProperty({

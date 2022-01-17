@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
+import transactionFactory from '../utils/factory/transaction.factory';
 import addressFactory from '../utils/factory/address.factory';
 import AppModule from '../../src/app.module';
 import { oneWallet } from '../utils/factory/wallet.factory';
@@ -27,10 +28,17 @@ describe('scr :: api :: wallet :: WalletController() :: remove (e2e)', () => {
       );
 
       await app.init();
+    });
 
+    beforeEach(async () => {
       const response = await request(app.getHttpServer()).post('/wallet').send(walletFactory);
+
       expect(response.status).toBe(201);
       address = response.body.address;
+      const responsePut = await request(app.getHttpServer())
+        .put(`/wallet/${address}`)
+        .send([transactionFactory({}), transactionFactory({})]);
+      expect(responsePut.status).toBe(200);
     });
 
     afterAll(async () => {
@@ -40,6 +48,7 @@ describe('scr :: api :: wallet :: WalletController() :: remove (e2e)', () => {
     describe('WHEN removing a existing / (DELETE)', () => {
       it('THEN it should return 204 with no content', async () => {
         const response = await request(app.getHttpServer()).delete(`/wallet/${address}`);
+
         expect(response.status).toBe(204);
         expect(response.body).toEqual({});
       });
@@ -57,7 +66,7 @@ describe('scr :: api :: wallet :: WalletController() :: remove (e2e)', () => {
         const { body } = response;
 
         expect(body.statusCode).toBe(404);
-        expect(body.message).toEqual('Wallet not found for the used address.');
+        expect(body.message).toEqual('Wallet not found for the searched address.');
         expect(body.error).toBe('Not Found');
       });
     });

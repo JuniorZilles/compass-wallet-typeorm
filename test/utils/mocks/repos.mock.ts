@@ -39,7 +39,7 @@ export const MOCKWALLETREPOSITORY = {
       raw: GENERATED[index]
     };
   }),
-  removeWallet: jest.fn((address) => {
+  remove: jest.fn((address) => {
     const index = GENERATED.findIndex((wallet) => wallet.address === address);
     if (index === -1) {
       return null;

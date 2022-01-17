@@ -13,7 +13,11 @@ export default class Transaction {
   @ApiProperty({
     description: 'Value of the transaction'
   })
-  @Column({ nullable: false, type: 'decimal' })
+  @Column({
+    nullable: false,
+    type: 'decimal',
+    transformer: { from: (value: string) => parseFloat(value), to: (value: number) => value.toString() }
+  })
   value: number;
 
   @ApiProperty({
@@ -21,7 +25,7 @@ export default class Transaction {
   })
   @Column({
     nullable: false,
-    type: 'date',
+    type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)'
   })
   datetime: Date;
@@ -30,7 +34,7 @@ export default class Transaction {
     description: 'Wallet to send value',
     type: String
   })
-  @ManyToOne(() => Wallet, (wallet) => wallet.address)
+  @ManyToOne(() => Wallet, (wallet) => wallet.address, { onDelete: 'CASCADE' })
   @Transform(({ value }) => value.address)
   sendTo: Wallet;
 
@@ -38,17 +42,21 @@ export default class Transaction {
     description: 'Wallet to receive value',
     type: String
   })
-  @ManyToOne(() => Wallet, (wallet) => wallet.address)
+  @ManyToOne(() => Wallet, (wallet) => wallet.address, { onDelete: 'CASCADE' })
   @Transform(({ value }) => value.address)
   receiveFrom: Wallet;
 
   @ApiProperty({
     description: 'Current cotation of the coin'
   })
-  @Column({ nullable: false, type: 'decimal' })
+  @Column({
+    nullable: false,
+    type: 'decimal',
+    transformer: { from: (value: string) => parseFloat(value), to: (value: number) => value.toString() }
+  })
   currentCotation: number;
 
-  @ManyToOne(() => Coin, (coin) => coin.id)
+  @ManyToOne(() => Coin, (coin) => coin.id, { onDelete: 'CASCADE' })
   coin: Coin;
 
   constructor(partial: Partial<Transaction>) {

@@ -8,7 +8,8 @@ import addressFactory from '../../utils/factory/address.factory';
 describe('scr :: api :: wallet :: WalletService() :: remove', () => {
   describe('GIVEN a mocked repository AND 5 mocked registers', () => {
     let service: WalletService;
-    const { address } = getGenerated(3);
+    const walletGen = getGenerated(3);
+    const { address } = walletGen;
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [WalletRepository, WalletService]
@@ -31,7 +32,8 @@ describe('scr :: api :: wallet :: WalletService() :: remove', () => {
           updated_at: expect.any(Date)
         });
 
-        expect(MOCKWALLETREPOSITORY.removeWallet).toHaveBeenCalledWith(address);
+        expect(MOCKWALLETREPOSITORY.findOneWallet).toHaveBeenCalledWith(address);
+        expect(MOCKWALLETREPOSITORY.remove).toHaveBeenCalledWith(walletGen);
       });
     });
 
@@ -44,7 +46,7 @@ describe('scr :: api :: wallet :: WalletService() :: remove', () => {
           expect((<NotFoundException>e).name).toBe('NotFoundException');
           expect((<NotFoundException>e).message).toBe('Wallet not found for the used address.');
         }
-        expect(MOCKWALLETREPOSITORY.removeWallet).toHaveBeenCalledWith(addressFactory);
+        expect(MOCKWALLETREPOSITORY.findOneWallet).toHaveBeenCalledWith(addressFactory);
       });
     });
   });

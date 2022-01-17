@@ -93,9 +93,10 @@ export default class WalletService {
   }
 
   async remove(address: string): Promise<Wallet> {
-    const result = await this.walletRepo.removeWallet(address);
+    const wallet = await this.findOne(address);
+    const result = await this.walletRepo.remove(wallet);
     if (!result) {
-      throw new NotFoundException('Wallet not found for the used address.');
+      throw new NotFoundException('Wallet not removed.');
     }
     return result;
   }

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
+import transactionFactory from '../utils/factory/transaction.factory';
 import addressFactory from '../utils/factory/address.factory';
 import AppModule from '../../src/app.module';
 import { oneWallet } from '../utils/factory/wallet.factory';
@@ -27,10 +28,17 @@ describe('scr :: api :: wallet :: WalletController() :: findOne (e2e)', () => {
       );
 
       await app.init();
+    });
 
+    beforeEach(async () => {
       const response = await request(app.getHttpServer()).post('/wallet').send(walletFactory);
+
       expect(response.status).toBe(201);
       address = response.body.address;
+      const responsePut = await request(app.getHttpServer())
+        .put(`/wallet/${address}`)
+        .send([transactionFactory({}), transactionFactory({})]);
+      expect(responsePut.status).toBe(200);
     });
 
     afterAll(async () => {
@@ -44,7 +52,22 @@ describe('scr :: api :: wallet :: WalletController() :: findOne (e2e)', () => {
         expect(response.body).toEqual({
           address: expect.any(String),
           birthdate: expect.any(String),
-          coins: expect.arrayContaining([{}]),
+          coins: expect.arrayContaining([
+            {
+              amount: expect.any(Number),
+              coin: expect.any(String),
+              fullname: expect.any(String),
+              transactions: expect.arrayContaining([
+                {
+                  currentCotation: expect.any(Number),
+                  datetime: expect.any(String),
+                  receiveFrom: expect.any(String),
+                  sendTo: expect.any(String),
+                  value: expect.any(Number)
+                }
+              ])
+            }
+          ]),
           cpf: expect.any(String),
           created_at: expect.any(String),
           name: expect.any(String),

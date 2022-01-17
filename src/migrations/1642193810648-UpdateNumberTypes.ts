@@ -15,10 +15,10 @@ export default class UpdateNumberTypes1642193810648 implements MigrationInterfac
     await queryRunner.query(`ALTER TABLE "coin" DROP COLUMN "amount"`);
     await queryRunner.query(`ALTER TABLE "coin" ADD "amount" numeric NOT NULL`);
     await queryRunner.query(
-      `ALTER TABLE "transaction" ADD CONSTRAINT "FK_76f4a2140e9ac94e898fa0088f1" FOREIGN KEY ("sendToAddress") REFERENCES "wallet"("address") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "transaction" ADD CONSTRAINT "FK_76f4a2140e9ac94e898fa0088f1" FOREIGN KEY ("sendToAddress") REFERENCES "wallet"("address") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "transaction" ADD CONSTRAINT "FK_53b736ab7c99ca0c1681e55fde9" FOREIGN KEY ("receiveFromAddress") REFERENCES "wallet"("address") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "transaction" ADD CONSTRAINT "FK_53b736ab7c99ca0c1681e55fde9" FOREIGN KEY ("receiveFromAddress") REFERENCES "wallet"("address") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
   }
 

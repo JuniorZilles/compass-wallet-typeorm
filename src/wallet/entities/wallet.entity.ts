@@ -1,14 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinTable,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { toDate, toStringDate } from '../utils/date-transform';
 import Coin from './coin.entity';
 
@@ -51,8 +43,7 @@ export default class Wallet {
     isArray: true,
     type: () => Coin
   })
-  @JoinTable()
-  @OneToMany(() => Coin, (coin) => coin.wallet, { onDelete: 'CASCADE', cascade: true })
+  @OneToMany(() => Coin, (coin) => coin.wallet, { cascade: true })
   coins: Coin[];
 
   @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP(6)' })
