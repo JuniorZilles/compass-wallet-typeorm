@@ -57,7 +57,7 @@ export default class SearchWalletDto extends PageDto {
   @IsString()
   @MaxLength(4)
   @MinLength(3)
-  coin: string;
+  coin?: string;
 
   @ApiProperty({
     description: 'Creation date',

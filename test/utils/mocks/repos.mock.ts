@@ -46,6 +46,45 @@ export const MOCKWALLETREPOSITORY = {
     }
     const deleted = GENERATED.splice(index, 1);
     return deleted.pop();
+  }),
+  findAll: jest.fn((payload) => {
+    const { page = 1, limit = 10, order, ...search } = payload;
+    const queryBuilder = GENERATED.filter((wallet) => {
+      if (search.coin) {
+        if (wallet.coins.find((coin) => coin.coin === search.coin)) {
+          return true;
+        }
+      }
+      if (search.name) {
+        if (wallet.name === search.name) {
+          return true;
+        }
+      }
+      if (search.name || search.coin) {
+        return false;
+      }
+      return true;
+    });
+    const { length } = queryBuilder;
+    const pages = Math.abs(length / limit);
+    const meta = {
+      itemCount: limit > length ? length : limit,
+      currentPage: page,
+      totalPages: pages,
+      itemsPerPage: limit,
+      totalItems: length
+    };
+    if (queryBuilder.length > limit) {
+      const filtered = queryBuilder.slice((page - 1) * limit, page * limit);
+      return {
+        items: filtered,
+        meta
+      };
+    }
+    return {
+      items: queryBuilder,
+      meta
+    };
   })
 };
 

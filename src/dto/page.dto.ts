@@ -8,7 +8,7 @@ export default class PageDto {
   })
   @IsOptional()
   @IsNumber()
-  page = 1;
+  page? = 1;
 
   @ApiProperty({
     description: 'Amount of retrieved pages',
@@ -16,7 +16,7 @@ export default class PageDto {
   })
   @IsOptional()
   @IsNumber()
-  take = 10;
+  limit? = 10;
 
   @ApiProperty({
     description: 'Order of the results',
@@ -24,5 +24,5 @@ export default class PageDto {
   })
   @IsOptional()
   @IsEnum(['ASC', 'DESC'])
-  order: string;
+  order?: 'ASC' | 'DESC';
 }

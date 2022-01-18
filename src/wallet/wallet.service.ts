@@ -30,8 +30,9 @@ export default class WalletService {
     return wallet;
   }
 
-  findAll(payload: SearchWalletDto): ListWalletDto {
-    return new ListWalletDto();
+  async findAll(payload: SearchWalletDto): Promise<ListWalletDto> {
+    const result = await this.walletRepo.findAll(payload);
+    return { wallet: result.items, meta: result.meta };
   }
 
   async findOne(address: string): Promise<Wallet> {

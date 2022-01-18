@@ -32,16 +32,22 @@ const coin = (address: string, pos: number) => {
 };
 
 export const manyWallets = (quantity = 10) => {
-  const cars = [];
+  const wallets = [];
+  const chance = new Chance();
   for (let i = 0; i < quantity; i += 1) {
+    const pos1 = chance.integer({ min: 0, max: TO_CURRENCY.length - 1 });
+    let pos2 = chance.integer({ min: 0, max: TO_CURRENCY.length - 1 });
+    if (pos1 === pos2) {
+      pos2 = chance.integer({ min: 0, max: TO_CURRENCY.length - 1 });
+    }
     const address = v4();
-    cars.push({
+    wallets.push({
       ...oneWallet(),
       address,
       createdAt: new Date(),
       updatedAt: new Date(),
-      coins: [coin(address, 3), coin(address, 7)]
+      coins: [coin(address, pos1), coin(address, pos2)]
     });
   }
-  return cars;
+  return wallets;
 };
