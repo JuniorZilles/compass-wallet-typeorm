@@ -2,12 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import AppModule from '../../src/app.module';
-import { oneWallet } from '../utils/factory/wallet.factory';
+import { createOneWallet } from '../utils/factory/wallet.factory';
 
 describe('scr :: api :: wallet :: WalletController() :: create (e2e)', () => {
   describe('GIVEN a empty database', () => {
     let app: INestApplication;
-    const walletFactory = oneWallet();
+    const walletFactory = createOneWallet();
     beforeAll(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [AppModule]
@@ -126,6 +126,27 @@ describe('scr :: api :: wallet :: WalletController() :: create (e2e)', () => {
 
         expect(body.statusCode).toBe(400);
         expect(body.message).toEqual(['The CPF is invalid, it should have the format of xxx.xxx.xxx-xx.']);
+        expect(body.error).toBe('Bad Request');
+      });
+    });
+
+    describe('WHEN creating a wallet with a existing CPF / (POST)', () => {
+      it('THEN it should return return a bad request', async () => {
+        const responseOriginal = await request(app.getHttpServer()).post('/wallet').send(walletFactory);
+        expect(responseOriginal.status).toBe(201);
+        const response = await request(app.getHttpServer())
+          .post('/wallet')
+          .send({ ...walletFactory, cpf: responseOriginal.body.cpf });
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual({
+          statusCode: expect.any(Number),
+          message: expect.any(String),
+          error: expect.any(String)
+        });
+        const { body } = response;
+
+        expect(body.statusCode).toBe(400);
+        expect(body.message).toEqual('Wallet already exists for this CPF.');
         expect(body.error).toBe('Bad Request');
       });
     });

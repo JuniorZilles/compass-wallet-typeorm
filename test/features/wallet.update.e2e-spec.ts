@@ -4,13 +4,13 @@ import * as request from 'supertest';
 import Coin from '../../src/wallet/entities/coin.entity';
 import addressFactory from '../utils/factory/address.factory';
 import AppModule from '../../src/app.module';
-import { oneWallet } from '../utils/factory/wallet.factory';
+import { createOneWallet } from '../utils/factory/wallet.factory';
 import transactionFactory from '../utils/factory/transaction.factory';
 
 describe('scr :: api :: wallet :: WalletController() :: update (e2e)', () => {
   describe('GIVEN a existing wallet', () => {
     let app: INestApplication;
-    const walletFactory = oneWallet();
+    const walletFactory = createOneWallet();
     let address: string;
     const iniAmounts: number[] = [];
     const transactions = [

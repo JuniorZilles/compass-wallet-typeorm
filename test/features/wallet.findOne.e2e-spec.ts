@@ -4,13 +4,13 @@ import * as request from 'supertest';
 import transactionFactory from '../utils/factory/transaction.factory';
 import addressFactory from '../utils/factory/address.factory';
 import AppModule from '../../src/app.module';
-import { oneWallet } from '../utils/factory/wallet.factory';
+import { createOneWallet } from '../utils/factory/wallet.factory';
 
 describe('scr :: api :: wallet :: WalletController() :: findOne (e2e)', () => {
   describe('GIVEN existing register', () => {
     let app: INestApplication;
     let address: string;
-    const walletFactory = oneWallet();
+    const walletFactory = createOneWallet();
     const addressFake = addressFactory;
     beforeAll(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({

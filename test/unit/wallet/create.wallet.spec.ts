@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { oneWallet } from '../../utils/factory/wallet.factory';
+import { createOneWallet } from '../../utils/factory/wallet.factory';
 import WalletRepository from '../../../src/wallet/wallet.repository';
 import WalletService from '../../../src/wallet/wallet.service';
 import { getGenerated, MOCKWALLETREPOSITORY } from '../../utils/mocks/repos.mock';
@@ -10,7 +10,7 @@ import TransactionRepository from '../../../src/wallet/transaction/transaction.r
 describe('scr :: api :: wallet :: WalletService() :: create', () => {
   describe('GIVEN a mocked repository', () => {
     let service: WalletService;
-    const walletFactory = oneWallet();
+    const walletFactory = createOneWallet();
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [WalletRepository, CoinsRepository, TransactionRepository, WalletService]

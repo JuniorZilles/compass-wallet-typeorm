@@ -8,10 +8,15 @@ import Wallet from './entities/wallet.entity';
 export default class WalletRepository extends Repository<Wallet> {
   async findAll(payload: SearchWalletDto): Promise<Pagination<Wallet>> {
     const { page, limit, order, ...search } = payload;
-    const queryBuilder = this.createQueryBuilder('w');
-    queryBuilder.where(search);
-    queryBuilder.orderBy('w.name', order);
-    return paginate<Wallet>(queryBuilder, { page, limit });
+    return paginate<Wallet>(
+      this,
+      { page, limit },
+      {
+        relations: ['coins', 'coins.transactions', 'coins.transactions.sendTo', 'coins.transactions.receiveFrom'],
+        where: search,
+        address: order
+      }
+    );
   }
 
   async insertWallet(createWalletDto: CreateWalletDto): Promise<CreateWalletDto> {

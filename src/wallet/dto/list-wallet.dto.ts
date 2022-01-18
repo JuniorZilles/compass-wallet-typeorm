@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import MetaDto from 'src/dto/meta.dto';
+import MetaDto from '../../dto/meta.dto';
 import Wallet from '../entities/wallet.entity';
 
 export default class ListWalletDto {

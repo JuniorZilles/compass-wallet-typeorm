@@ -11,6 +11,7 @@ import TransactionRepository from './transaction/transaction.repository';
 import getConversion from './utils/coin-request';
 import { toDate } from './utils/date-transform';
 import WalletRepository from './wallet.repository';
+import transformSearch from './utils/wallet-search-transform';
 
 @Injectable()
 export default class WalletService {
@@ -31,7 +32,7 @@ export default class WalletService {
   }
 
   async findAll(payload: SearchWalletDto): Promise<ListWalletDto> {
-    const result = await this.walletRepo.findAll(payload);
+    const result = await this.walletRepo.findAll(transformSearch(payload));
     return { wallet: result.items, meta: result.meta };
   }
 

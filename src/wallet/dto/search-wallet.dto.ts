@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength, Validate } from 'class-validator';
-import PageDto from 'src/dto/page.dto';
+import PageDto from '../../dto/page.dto';
 import CustomCpfValidator from '../utils/validators/custom-cpf-validator';
 import CustomDateIsOlderAgeValidator from '../utils/validators/custom-date-age-validator';
 import CustomDateValidator from '../utils/validators/custom-date-validator';
@@ -48,6 +48,8 @@ export default class SearchWalletDto extends PageDto {
   @IsNumber()
   amount?: number;
 
+  'coins.amount'?: number;
+
   @ApiProperty({
     description: 'Currency code',
     required: false
@@ -58,6 +60,8 @@ export default class SearchWalletDto extends PageDto {
   @MaxLength(4)
   @MinLength(3)
   coin?: string;
+
+  'coins.coin'?: string;
 
   @ApiProperty({
     description: 'Creation date',

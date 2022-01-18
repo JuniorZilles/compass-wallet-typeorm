@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { v4 } from 'uuid';
 import { TO_CURRENCY } from './currency.factory';
 
-export const oneWallet = () => {
+export const createOneWallet = () => {
   const chance = new Chance();
   const year = chance.year({ min: 1970, max: 2004 });
   return {
@@ -11,6 +11,14 @@ export const oneWallet = () => {
     birthdate: moment(chance.birthday({ year })).format('DD/MM/YYYY'),
     cpf: chance.cpf()
   };
+};
+
+export const createManyWallets = (quantity = 10) => {
+  const wallets = [];
+  for (let i = 0; i < quantity; i += 1) {
+    wallets.push(createOneWallet());
+  }
+  return wallets;
 };
 
 const coin = (address: string, pos: number) => {
@@ -42,7 +50,7 @@ export const manyWallets = (quantity = 10) => {
     }
     const address = v4();
     wallets.push({
-      ...oneWallet(),
+      ...createOneWallet(),
       address,
       createdAt: new Date(),
       updatedAt: new Date(),

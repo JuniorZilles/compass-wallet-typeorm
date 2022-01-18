@@ -53,8 +53,9 @@ export default class WalletController {
   @Get()
   @ApiQuery({ type: SearchWalletDto })
   @ApiOkResponse({ description: 'Operation succeeded.', type: ListWalletDto })
-  findAll(@Query() payload: SearchWalletDto): ListWalletDto {
-    return this.walletService.findAll(payload);
+  async findAll(@Query() payload: SearchWalletDto): Promise<ListWalletDto> {
+    const result = await this.walletService.findAll(payload);
+    return result;
   }
 
   @Get(':address')
