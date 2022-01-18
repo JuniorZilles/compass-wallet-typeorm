@@ -54,6 +54,7 @@ Api de gestão de carteira criptomoedas desenvolvida durante o período de trein
     - class-transformer v.0.5.1
     - class-validator v.0.13.2
     - moment v.2.29.1
+    - nestjs-typeorm-paginate v.3.1.3
     - pg v.8.7.1
     - reflect-metadata v.0.1.13
     - rimraf v.3.0.2
