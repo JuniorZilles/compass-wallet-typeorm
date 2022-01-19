@@ -5,7 +5,7 @@ import { TO_CURRENCY } from './currency.factory';
 
 export const createOneWallet = () => {
   const chance = new Chance();
-  const year = chance.year({ min: 1970, max: 2004 });
+  const year = chance.year({ min: 1970, max: 2003 });
   return {
     name: chance.name(),
     birthdate: moment(chance.birthday({ year })).format('DD/MM/YYYY'),
