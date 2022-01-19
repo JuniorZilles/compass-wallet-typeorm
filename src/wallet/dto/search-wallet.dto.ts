@@ -48,8 +48,6 @@ export default class SearchWalletDto extends PageDto {
   @IsNumber()
   amount?: number;
 
-  'coins.amount'?: number;
-
   @ApiProperty({
     description: 'Currency code',
     required: false
@@ -60,8 +58,6 @@ export default class SearchWalletDto extends PageDto {
   @MaxLength(4)
   @MinLength(3)
   coin?: string;
-
-  'coins.coin'?: string;
 
   @ApiProperty({
     description: 'Creation date',

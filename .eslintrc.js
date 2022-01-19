@@ -25,6 +25,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',
-    'import/no-cycle': 'off'
+    'import/no-cycle': 'off',
+    "no-restricted-syntax": "off",
   },
 };

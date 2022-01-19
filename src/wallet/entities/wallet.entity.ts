@@ -46,7 +46,9 @@ export default class Wallet {
   @OneToMany(() => Coin, (coin) => coin.wallet, { cascade: true })
   coins: Coin[];
 
-  @CreateDateColumn({ default: () => 'CURRENT_TIMESTAMP(6)' })
+  @CreateDateColumn({
+    default: () => 'CURRENT_TIMESTAMP(6)'
+  })
   createdAt: Date;
 
   @UpdateDateColumn({

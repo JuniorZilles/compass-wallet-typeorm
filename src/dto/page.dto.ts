@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional } from 'class-validator';
 
 export default class PageDto {
@@ -7,6 +8,7 @@ export default class PageDto {
     required: false
   })
   @IsOptional()
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   page? = 1;
 
@@ -15,6 +17,7 @@ export default class PageDto {
     required: false
   })
   @IsOptional()
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   limit? = 10;
 
