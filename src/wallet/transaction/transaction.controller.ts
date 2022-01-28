@@ -41,7 +41,7 @@ export default class TransactionController {
     @Param('address', ParseUUIDPipe) address: string,
     @Body() createTransactionDto: CreateTransactionDto
   ): Promise<ListCoinsDto> {
-    return this.transactionService.create(createTransactionDto);
+    return this.transactionService.create(address, createTransactionDto);
   }
 
   @Get()
@@ -50,6 +50,6 @@ export default class TransactionController {
     @Param('address', ParseUUIDPipe) address: string,
     @Query() payload: SearchTransactionDto
   ): Promise<ListCoinsDto> {
-    return this.transactionService.findAll(payload);
+    return this.transactionService.findAll(address, payload);
   }
 }

@@ -5,11 +5,9 @@ import SearchTransactionDto from './dto/search-transaction.dto';
 
 @Injectable()
 export default class TransactionService {
-  async create(createTransactionDto: CreateTransactionDto): Promise<ListCoinsDto> {
-    return new ListCoinsDto();
-  }
+  async create(address: string, createTransactionDto: CreateTransactionDto): Promise<ListCoinsDto> {}
 
-  async findAll(payload: SearchTransactionDto): Promise<ListCoinsDto> {
+  async findAll(address: string, payload: SearchTransactionDto): Promise<ListCoinsDto> {
     return new ListCoinsDto();
   }
 }
